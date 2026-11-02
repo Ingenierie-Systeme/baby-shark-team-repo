@@ -21,7 +21,7 @@ class NavigatorNode(Node):
 
         ### Navigator
         navigator.set_rgb_led_strip_size(1)
-        navigator.set_navigator_version(navigator.NavigatorVersion.Version2)
+        navigator.set_navigator_version(navigator.NavigatorVersion.Version1)
         navigator.set_raspberry_pi_version(navigator.Raspberry.Pi4)
         navigator.init()
         navigator.set_pwm_freq_hz(50)

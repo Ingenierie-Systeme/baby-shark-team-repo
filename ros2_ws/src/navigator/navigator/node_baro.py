@@ -15,7 +15,7 @@ class BarometerNode(Node):
         super().__init__("barometer")
 
         ### Sensor
-        self.sensor = ms5837.MS5837_30BA(6)
+        self.sensor = ms5837.MS5837_02BA(6)        
         if not self.sensor.init():
             raise RuntimeError("MS5837 could not be initialized")
         self.sensor.setFluidDensity(ms5837.DENSITY_SALTWATER)
@@ -43,6 +43,7 @@ class BarometerNode(Node):
                 return
 
             msg = Float32()
+            #msg.data = float(self.sensor.pressure())   # TEMPORAIRE : pression en hPa
             msg.data = self.sensor.depth()
             self.depth_pub.publish(msg)
 
