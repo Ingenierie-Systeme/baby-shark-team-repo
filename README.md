@@ -30,7 +30,6 @@ Logiciel : Ubuntu 24.04, ROS 2 Jazzy.
 
 ## Architecture ROS 2
 
-```mermaid
 <img width="886" height="530" alt="image" src="https://github.com/user-attachments/assets/9be415e7-d70d-4ec7-8ad1-15d062d86fdd" />
 
 
