@@ -31,26 +31,8 @@ Logiciel : Ubuntu 24.04, ROS 2 Jazzy.
 ## Architecture ROS 2
 
 ```mermaid
-flowchart LR
-    SBUS[Récepteur SBUS] --> rc((rc))
-    NAV[Carte Navigator<br/>IMU + magnéto] --> navigator((navigator))
-    MS[MS5837] --> baro((baro))
+<img width="886" height="530" alt="image" src="https://github.com/user-attachments/assets/9be415e7-d70d-4ec7-8ad1-15d062d86fdd" />
 
-    rc --> t_rc["/input/rc"]
-    navigator --> t_imu["/input/imu"]
-    navigator --> t_mag["/input/mag"]
-    baro --> t_depth["/input/depth"]
-    t_imu --> fusion((fusion))
-    t_mag --> fusion
-    fusion --> t_att["/state/attitude"]
-
-    t_rc -.-> control((control))
-    t_depth -.-> control
-    t_att -.-> control
-    control -.-> t_servo["/output/servos"]
-    t_servo --> navigator
-    navigator --> PWM[Servos PWM]
-```
 
 En pointillés : le node `control`, pas encore écrit.
 
