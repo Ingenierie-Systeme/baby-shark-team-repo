@@ -135,13 +135,29 @@ Ne jamais committer `build/`, `install/` ni `log/` (déjà dans `ros2_ws/.gitign
 
 ## Équipe
 
-tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
+Anatole Le Boudec · Florian Milin · Guilhem Merlet · Thomas Moskotchvenko · Vianney Fleury · Yoann Matarazzi
+— ENSTA Paris
+
+GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
 
 ---
 
 ## 📓 Carnet de bord
 
+<img src="docs/img/logo.png" alt="Logo Babyshark" width="140" align="right">
+
 Avancement du projet, point d'étape par point d'étape (d'après les présentations de suivi).
+Les entrées les plus récentes sont en bas ; la liste à jour des tâches est dans [Prochaines étapes](#prochaines-étapes).
+
+| Date | Jalon | Mécanique | Électronique / ROS 2 | Simulation Unity |
+|---|---|---|---|---|
+| [26 oct.](#26-octobre--lancement) | Lancement | Choix du concept | — | — |
+| [28 oct.](#28-octobre--de-la-cao-aux-premières-pièces) | Premières pièces | Jonction + bouchon imprimés, rail de masse | Câblage sur table, Raspberry en SSH | Import du robot |
+| [2 nov.](#2-novembre--premier-robot-complet) | Robot complet | Pignon-crémaillère, nageoires | Nodes moteur et baro testés à bord | Intérieur du tube modélisé |
+| [4 nov.](#4-novembre--premier-passage-au-bassin) | 1er bassin | ⚠️ Fuite au bouchon | Nodes `control` et `camera` | Environnement complet |
+| [5 nov.](#5-novembre--plongée-commandée-et-boucle-de-profondeur-simulée) | Plongée commandée | Joint épaissi, lest ajouté | Node IMU simulé | ⚠️ Dépassement de 6 cm en profondeur |
+
+<br clear="right">
 
 ### 26 octobre — Lancement
 
@@ -228,7 +244,10 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
 
 ### 4 novembre — Premier passage au bassin
 
-**Test d'étanchéité.** Premier passage dans l'eau. L'eau s'infiltre entre le premier et le deuxième joint du bouchon : l'étanchéité est à reprendre.
+**Test d'étanchéité.** Premier passage dans l'eau. L'eau s'infiltre entre le premier et le deuxième joint du bouchon.
+
+> [!WARNING]
+> Étanchéité du bouchon insuffisante : à reprendre avant toute plongée prolongée.
 
 <table>
   <tr>
@@ -249,9 +268,53 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
 
 <img src="docs/img/0411_schema_ros2.png" alt="Schéma des nodes ROS 2 mis à jour" width="500">
 
+### 5 novembre — Plongée commandée et boucle de profondeur simulée
+
+**Étanchéité, deuxième essai.** Pour corriger la fuite de la veille, on épaissit le joint du bouchon avec du scotch. C'est une solution provisoire : la prochaine version passera par des joints plus gros.
+
+<img src="docs/img/0511_etancheite_scotch.jpg" alt="Joint du bouchon épaissi avec du scotch" width="320">
+
+**Plongée à la télécommande.** Seul, le robot flotte trop pour descendre. On ajoute des masses de lest fixées sous l'électronique, puis on le fait plonger depuis la radiocommande.
+
+<table>
+  <tr>
+    <td rowspan="2"><img src="docs/img/0511_plongee_bassin.jpg" alt="Le robot plonge dans le bassin" width="230"></td>
+    <td><img src="docs/img/0511_masses_electronique.jpg" alt="Emplacement des masses sous l'électronique" width="300"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/img/0511_masses_lest.jpg" alt="Masses de lest" width="300"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Plongée pilotée à la télécommande</sub></td>
+    <td align="center"><sub>Masses ajoutées pour le faire plonger</sub></td>
+  </tr>
+</table>
+
+**Node IMU simulé.** Unity publie maintenant un message `sensor_msgs/Imu` que l'on écoute côté ROS 2. Les valeurs sont cohérentes avec la physique simulée : sur l'axe vertical (y dans Unity), on retrouve le poids (≈ 9,79 m/s²) et la poussée d'Archimède (≈ 10,08 m/s²).
+
+<table>
+  <tr>
+    <td><img src="docs/img/0511_imu_unity.png" alt="Topic IMU publié par Unity" width="300"></td>
+    <td><img src="docs/img/0511_imu_unity_repos.png" alt="Accélération verticale : le poids" width="340"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Message IMU complet — y ≈ 10,08 (poussée d'Archimède)</sub></td>
+    <td align="center"><sub>Accélération linéaire — y ≈ 9,79 (poids)</sub></td>
+  </tr>
+</table>
+
+**Contrôle de profondeur en simulation.** Le node `control` tourne contre Unity avec une consigne de 1 m. Le robot descend jusqu'à **1,06 m** : 6 cm de trop. Pendant l'essai, `control` affiche en boucle `Pas de mesure de profondeur récente`, signe que `/input/depth` n'arrive pas (ou pas assez souvent) depuis la simulation : c'est la première piste à vérifier.
+
+<img src="docs/img/0511_unity_control.jpg" alt="Simulation Unity du contrôle de profondeur" width="600">
+
+> [!NOTE]
+> On commence à enregistrer les données des essais pour analyser le comportement du contrôleur (consigne, profondeur mesurée, commande servos).
+
 ### Prochaines étapes
 
-- [ ] Reprendre l'étanchéité du bouchon et refaire un test au bassin (flottabilité comprise)
-- [ ] Ajouter la pièce de soutien de la crémaillère
-- [ ] Brancher la caméra et ROS 2 sur Unity
-- [ ] Finir `node_navigation.py` et tester les nodes en réel et en simulation
+<sub>Mises à jour le 5 novembre.</sub>
+
+**Fait depuis le 4 novembre**
+- [x] Premier renfort du joint (scotch) et nouveau passage au bassin
+- [x] Plongée pilotée à la télécommande grâce au lest
+- [x] Topic IMU publié par Unity et lu dans ROS 2
