@@ -40,7 +40,7 @@ class RcToServos(Node):
     def publish(self, u1, u2):
         msg = Float32MultiArray()
         msg.data = [float(u1), float(u2)]  # [servo1, servo2]
-        self.pwm_pub.publish(msg)
+        self.pub.publish(msg)
 
     def rc_cb(self, msg):
         self.last_rx = time.time()

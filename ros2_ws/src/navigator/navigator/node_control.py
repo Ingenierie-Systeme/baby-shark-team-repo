@@ -119,7 +119,7 @@ class ControlNode(Node):
 
     def control_depth(self):
         u_nageoire = self.oscillation()
-        u_masse=1.0
+        u_masse=0.0
 
         """if self.depth is None:
             u_masse=0
