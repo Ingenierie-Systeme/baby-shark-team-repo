@@ -46,8 +46,11 @@ setup(
                 'fusion = navigator.node_fusion:main',
                 'navigation = navigator.node_navigation:main',
                 'navigator = navigator.node_navigator:main',
-                'rc = navigator.node_rc:main',
                 'cam = navigator.node_cam:main',
+                'node_camera = navigator.node_camera:main',
+                'node_rc = navigator.node_rc:main',
+                'control_rc = navigator.node_control_rc:main',
+                'log = navigator.node_log:main',
         ],
     },
 )

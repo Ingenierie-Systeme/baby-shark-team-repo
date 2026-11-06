@@ -4,13 +4,32 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Imu, MagneticField
+from geometry_msgs.msg import Vector3Stamped
 
 import imufusion
 import numpy as np
 
-from math import pi
+from math import pi, atan2, asin, degrees, copysign
 
 from navigator.config import *
+
+
+def quaternion_to_euler(w, x, y, z):
+    """Quaternion -> (roulis, tangage, cap) en radians, convention ZYX (NED)."""
+    # Roulis (rotation autour de X)
+    roll = atan2(2.0 * (w * x + y * z), 1.0 - 2.0 * (x * x + y * y))
+
+    # Tangage (rotation autour de Y), clampé pour éviter les erreurs numériques
+    sinp = 2.0 * (w * y - z * x)
+    if abs(sinp) >= 1.0:
+        pitch = copysign(pi / 2.0, sinp)   # gimbal lock à ±90°
+    else:
+        pitch = asin(sinp)
+
+    # Cap (rotation autour de Z)
+    yaw = atan2(2.0 * (w * z + x * y), 1.0 - 2.0 * (y * y + z * z))
+
+    return roll, pitch, yaw
 
 
 class FusionNode(Node):
@@ -36,7 +55,7 @@ class FusionNode(Node):
         )
 
         ### Calibration
-        self.mag_hard = np.array([-3.28499185, 5.48995909,-0.22732013])
+        self.mag_hard = np.array([-3.28499185, 5.48995909, -0.22732013])
         self.mag_soft = np.eye(3)
         self.accel_offset = np.array([0.0, 0.0, 0.0])
         self.accel_misal = np.array([
@@ -65,12 +84,18 @@ class FusionNode(Node):
             self.mag_callback,
             10)
 
-        ### Publisher
+        ### Publishers
         self.attitude_pub = self.create_publisher(
             Imu,
             "/state/attitude",
             10)
-        
+
+        # x = roulis, y = tangage, z = cap (en degrés)
+        self.euler_pub = self.create_publisher(
+            Vector3Stamped,
+            "/state/euler",
+            10)
+
         self.get_logger().info("Fusion node started.")
 
     ### IMU callback
@@ -131,16 +156,33 @@ class FusionNode(Node):
         self.publish_attitude()
 
     def publish_attitude(self):
-        msg = Imu()
-        msg.header.stamp = (self.get_clock().now().to_msg())
+
+        stamp = self.get_clock().now().to_msg()   # même date pour les deux messages
 
         quaternion = self.ahrs.get_quaternion()
-        msg.orientation.w = float(quaternion[0])
-        msg.orientation.x = float(quaternion[1])
-        msg.orientation.y = float(quaternion[2])
-        msg.orientation.z = float(quaternion[3])
+        qw = float(quaternion[0])
+        qx = float(quaternion[1])
+        qy = float(quaternion[2])
+        qz = float(quaternion[3])
 
+        # Orientation en quaternion
+        msg = Imu()
+        msg.header.stamp = stamp
+        msg.orientation.w = qw
+        msg.orientation.x = qx
+        msg.orientation.y = qy
+        msg.orientation.z = qz
         self.attitude_pub.publish(msg)
+
+        # Angles d'Euler en degrés : roulis, tangage, cap
+        roll, pitch, yaw = quaternion_to_euler(qw, qx, qy, qz)
+
+        euler_msg = Vector3Stamped()
+        euler_msg.header.stamp = stamp
+        euler_msg.vector.x = degrees(roll)           # roulis
+        euler_msg.vector.y = degrees(pitch)          # tangage
+        euler_msg.vector.z = degrees(yaw) % 360.0    # cap, entre 0 et 360°
+        self.euler_pub.publish(euler_msg)
 
 
 def main():
