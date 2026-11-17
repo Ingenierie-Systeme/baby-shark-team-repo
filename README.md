@@ -286,8 +286,8 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
     <td><img src="docs/img/0211_nageoire_caudale.jpg" alt="Nageoire caudale" width="300"></td>
   </tr>
   <tr>
-    <td align="center"><sub>Dorsale et pectorales</sub></td>
     <td align="center"><sub>Caudale</sub></td>
+    <td align="center"><sub>Dorsale</sub></td>
   </tr>
 </table>
 
