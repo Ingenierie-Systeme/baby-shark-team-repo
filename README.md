@@ -31,9 +31,9 @@ baby-shark-team-repo/
 <img src="docs/img/logo.png" alt="Logo Babyshark" width="140" align="right">
 
 Anatole Le Boudec · Florian Milin · Guilhem Merlet · Thomas Moskotchvenko · Vianney Fleury · Yoann Matarazzi
-— ENSTA Paris
+— ENSTA Brest
 
-GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
+GitHub : thomasmoskovtchenkotech · guilhemmerlet19-ai · anatolelb · yoann-mtrz . floflo1001 . vlfry
 
 <br clear="right">
 
