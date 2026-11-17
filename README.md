@@ -195,7 +195,7 @@ Ne jamais committer `build/`, `install/` ni `log/` (déjà dans `ros2_ws/.gitign
 <img src="docs/img/logo.png" alt="Logo Babyshark" width="140" align="right">
 
 Avancement du projet, point d'étape par point d'étape (d'après les présentations de suivi).
-Les entrées les plus récentes sont en bas ; la liste à jour des tâches est dans [Prochaines étapes](#prochaines-étapes).
+Les entrées les plus récentes sont en bas.
 
 | Date | Jalon | Mécanique | Électronique / ROS 2 | Simulation Unity |
 |---|---|---|---|---|
