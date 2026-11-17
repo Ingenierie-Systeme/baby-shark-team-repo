@@ -2,6 +2,9 @@
 
 ## Project presentation
 
+
+https://github.com/user-attachments/assets/91ca228d-8cf4-4dec-8d00-e25f867dfa3f
+
 <div align="center">
   <img src="docs/img/robot_complet.jpg" alt="Le robot Baby Shark assemblé" width="49%" />
   <img src="docs/img/0511_plongee_bassin.jpg" alt="Le robot plonge dans le bassin" width="35%" />
