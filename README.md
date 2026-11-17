@@ -1,13 +1,17 @@
-# baby-shark
+# TEAM BABY SHARK
 
-<p align="center">
-  <img src="docs/img/robot_complet.jpg" alt="Le robot Baby Shark assemblé" width="700">
-</p>
+## Project presentation
 
-Robot sous-marin biomimétique (requin) propulsé par une nageoire actionnée par servomoteurs.
+<div align="center">
+  <img src="docs/img/robot_complet.jpg" alt="Le robot Baby Shark assemblé" width="49%" />
+  <img src="docs/img/0511_plongee_bassin.jpg" alt="Le robot plonge dans le bassin" width="35%" />
+</div>
+
+Robot sous-marin biomimétique (requin) propulsé par une nageoire actionnée par servomoteurs : un **robot ondulatoire d'exploration et d'observation**, inspiré d'un AUV existant, réalisé à notre échelle.
 Ce dépôt regroupe le code embarqué ROS 2 et les fichiers de conception du robot.
 
-## Organisation du dépôt
+
+## Repository structure
 
 ```
 baby-shark-team-repo/
@@ -22,7 +26,50 @@ baby-shark-team-repo/
 > Les fichiers de conception (`.ipt`, `.obj`, `.stl`…) vont dans `mecanique/` et **pas à la racine** :
 > le robot récupère toujours les fichiers de la racine, seuls les sous-dossiers sont filtrés.
 
-## Matériel
+
+## The team
+
+<img src="docs/img/logo.png" alt="Logo Babyshark" width="140" align="right">
+
+Anatole Le Boudec · Florian Milin · Guilhem Merlet · Thomas Moskotchvenko · Vianney Fleury · Yoann Matarazzi
+— ENSTA Paris
+
+GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
+
+<br clear="right">
+
+
+## Financial Study
+
+*TODO : graphique camembert (matériel séparé, prix additionnels, etc.) + lien vers l'Excel détaillé.*
+
+
+## Unity-ROS2 : 3D Dynamical Realistic Time AUV Simulation and its environment
+
+### Overview
+
+<img src="docs/img/0511_unity_control.jpg" alt="Simulation Unity du contrôle de profondeur" width="600">
+
+*TODO : vidéo / GIF du projet fini.*
+
+### 3D dynamics model
+*TODO : schéma des forces et couples, équations.*
+
+
+## Mechanical & Electronical Conception
+
+### Overview
+*TODO : vidéo / GIF / images du robot, présentation des capteurs.*
+
+### Mechanical architecture
+
+<img src="docs/img/0211_cremaillere_cao.jpg" alt="CAO du système pignon-crémaillère" width="420">
+
+*TODO : schéma de l'architecture mécanique + texte.*
+
+### Electronical architecture
+
+<img src="docs/img/2810_schema_electrique.png" alt="Schéma électrique" width="420">
 
 | Élément | Rôle | Interface |
 |---|---|---|
@@ -31,16 +78,20 @@ baby-shark-team-repo/
 | Capteur MS5837-30BA | Pression → profondeur (eau salée) | I2C bus 6 |
 | 2 servomoteurs | Nageoire | PWM 50 Hz, canaux 0 et 1 |
 
-Logiciel : Ubuntu 24.04, ROS 2 Jazzy.
 
-## Architecture ROS 2
+## Simulation To Reality
 
-<img width="886" height="530" alt="image" src="https://github.com/user-attachments/assets/9be415e7-d70d-4ec7-8ad1-15d062d86fdd" />
+### What is it ?
+*TODO : présentation du concept et schéma commun simulation / réalité.*
+
+Logiciel embarqué : Ubuntu 24.04, ROS 2 Jazzy.
+
+#### ROS 2 architecture
+
+<img width="886" height="530" alt="Architecture ROS 2" src="https://github.com/user-attachments/assets/9be415e7-d70d-4ec7-8ad1-15d062d86fdd" />
 
 
-En pointillés : le node `control`, pas encore écrit.
-
-### Nodes
+**Nodes**
 
 | Node | Fichier | Rôle |
 |---|---|---|
@@ -48,10 +99,9 @@ En pointillés : le node `control`, pas encore écrit.
 | `rc` | `node_rc.py` | Décode les trames SBUS (8 voies normalisées entre -1 et 1) |
 | `baro` | `node_baro.py` | Lit la profondeur à 10 Hz |
 | `fusion` | `node_fusion.py` | Estime l'attitude (AHRS `imufusion`, convention NED) |
-| `control` | *à écrire* | Commande des servos à partir de la RC et de l'état |
-| `navigation` | *à écrire* | — |
+| `control` | `node_control.py` | Commande des servos à partir de la RC et de l'état |
 
-### Topics
+**Topics**
 
 | Topic | Type | Publié par | Souscrit par |
 |---|---|---|---|
@@ -62,12 +112,24 @@ En pointillés : le node `control`, pas encore écrit.
 | `/state/attitude` | `sensor_msgs/Imu` (orientation) | `fusion` | (`control`) |
 | `/output/servos` | `std_msgs/Float32MultiArray` (2 valeurs, -1 à 1) | (`control`) | `navigator` |
 
-Commande servo : -1 → 1000 µs, 0 → 1500 µs, +1 → 2000 µs.
-`data[0]` sort sur le canal PWM 1, `data[1]` sur le canal PWM 0.
 
-## Installation sur le robot
 
-### 1. Dépendances
+
+### How to launch Real robot
+
+#### 1. Connexion SSH
+
+```bash
+ssh <utilisateur>@<adresse-ip-du-robot>
+```
+
+> Les identifiants de la Raspberry Pi ne sont **pas** dans ce dépôt : demandez-les à l'équipe (ne jamais les committer).
+
+Le réseau utilisé est le partage de connection de Florian. Il sera necessaire pour les prochains utilisateurs de changer ça dans le netplan
+
+#### 2. Installation (première fois uniquement)
+
+Dépendances :
 
 ```bash
 sudo apt install git python3-numpy python3-serial python3-smbus2
@@ -76,9 +138,7 @@ pip install bluerobotics-navigator imufusion --break-system-packages
 
 ROS 2 Jazzy doit être installé (`ros-jazzy-ros-base`).
 
-### 2. Récupérer uniquement le code embarqué
-
-Une clé SSH du robot doit être ajoutée au compte GitHub (Settings → SSH and GPG keys).
+Récupérer uniquement le code embarqué (une clé SSH du robot doit être ajoutée au compte GitHub : Settings → SSH and GPG keys) :
 
 ```bash
 cd ~
@@ -87,7 +147,7 @@ cd baby-shark-team-repo
 git sparse-checkout set ros2_ws
 ```
 
-### 3. Compiler
+Compiler :
 
 ```bash
 cd ~/baby-shark-team-repo/ros2_ws
@@ -96,7 +156,7 @@ echo "source ~/baby-shark-team-repo/ros2_ws/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Utilisation
+#### 3. Lancement
 
 Tout lancer :
 
@@ -110,7 +170,18 @@ Lancer un seul node :
 ros2 run navigator baro
 ```
 
-Vérifier ce qui tourne :
+Contôle télécommande
+
+```bash
+ros2 run navigator node_rc
+```
+
+```bash
+ros2 run navigator control_rc
+```
+
+
+#### 4. Vérifier ce qui tourne
 
 ```bash
 ros2 topic list
@@ -118,7 +189,8 @@ ros2 topic echo /input/depth
 rqt_graph
 ```
 
-## Travailler avec Git
+
+## Working with Git
 
 Sur le robot comme sur un PC :
 
@@ -132,13 +204,6 @@ git push
 ```
 
 Ne jamais committer `build/`, `install/` ni `log/` (déjà dans `ros2_ws/.gitignore`).
-
-## Équipe
-
-Anatole Le Boudec · Florian Milin · Guilhem Merlet · Thomas Moskotchvenko · Vianney Fleury · Yoann Matarazzi
-— ENSTA Paris
-
-GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
 
 ---
 
@@ -310,11 +375,3 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
 > [!NOTE]
 > On commence à enregistrer les données des essais pour analyser le comportement du contrôleur (consigne, profondeur mesurée, commande servos).
 
-### Prochaines étapes
-
-<sub>Mises à jour le 5 novembre.</sub>
-
-**Fait depuis le 4 novembre**
-- [x] Premier renfort du joint (scotch) et nouveau passage au bassin
-- [x] Plongée pilotée à la télécommande grâce au lest
-- [x] Topic IMU publié par Unity et lu dans ROS 2
