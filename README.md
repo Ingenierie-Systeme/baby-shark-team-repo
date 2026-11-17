@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/60fd9d48-22ee-4f0f-bc8e-4ca362dd6396
+
 # TEAM BABY SHARK
 
 ## Project presentation
@@ -361,9 +365,16 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
 
 ### 6 novembre — Essais du robot dans le grand bassin
 
-**Contrôle du robot avec la télécommande.** Nous perdions le signal de temps en temps mais globalement nous arrivions à faire plonger le robot et à le contrôler sous l'eau.
+**Etape 1 : Contrôle du robot avec la télécommande.** Nous perdions le signal de temps en temps mais globalement nous arrivions à faire plonger le robot et à le contrôler sous l'eau.
 
-**Prise de vidéos du robot sous l'eau avec le blue ROV par Titouan Belier.**
+**Etape 2 : Prise de vidéos du robot contrôlé par télécommande sous l'eau avec le blue ROV par Titouan Belier.**
+
+https://github.com/user-attachments/assets/c3a6b960-88cb-41fe-9a77-9f3beacb58d5
+
+**Etape 3 : Lancement du noeud de contrôle.** Nous avons lancé le noeud de contrôle pour que le robot atteigne une profondeur de 1 mètre et y reste. Le robot était attaché avec un bout. Il a commencé à plonger puis le robot se dirigeait vers un mur du bassin. Nous avons donc tiré sur le bout pour écarter le robot du mur. Puis le robot semblait se diriger aléatoirement. Ainsi nous l'avons remonté. Nous n'avons pas effectué plus de tests car la raspberry s'était déconnectée et à cause d'un problème lié à la raspberry, nous n'arrivons pas à nous reconnecter en ssh directement. Nous sommes obligés d'ouvrir le robot, de brancher la raspberry au PC pour trouver l'adresse IP. Souvent elle n'apparait pas au premier essai. Ainsi nous devons reboot la raspberry jusqu'à obtenir une adresse IP. 
+
+
+
 
 
 
