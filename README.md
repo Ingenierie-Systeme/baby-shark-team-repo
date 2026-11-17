@@ -5,10 +5,6 @@
 
 https://github.com/user-attachments/assets/91ca228d-8cf4-4dec-8d00-e25f867dfa3f
 
-<div align="center">
-  <img src="docs/img/robot_complet.jpg" alt="Le robot Baby Shark assemblé" width="49%" />
-  <img src="docs/img/0511_plongee_bassin.jpg" alt="Le robot plonge dans le bassin" width="35%" />
-</div>
 
 Robot sous-marin biomimétique (requin) propulsé par une nageoire actionnée par servomoteurs : un **robot ondulatoire d'exploration et d'observation**, inspiré d'un AUV existant, réalisé à notre échelle.
 Ce dépôt regroupe le code embarqué ROS 2 et les fichiers de conception du robot.
