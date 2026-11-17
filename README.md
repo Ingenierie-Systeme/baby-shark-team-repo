@@ -55,7 +55,8 @@ GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
 
 ### Electronical architecture
 
-<img src="docs/img/2810_schema_electrique.png" alt="Schéma électrique" width="420">
+<img width="853" height="613" alt="image" src="https://github.com/user-attachments/assets/0f46220d-0c67-4346-bedf-53fa5c603333" />
+
 
 | Élément | Rôle | Interface |
 |---|---|---|
