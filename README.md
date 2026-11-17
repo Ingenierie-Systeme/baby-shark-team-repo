@@ -359,3 +359,12 @@ Toutes les pièces sont assemblées : le robot existe pour la première fois en 
 > [!NOTE]
 > On commence à enregistrer les données des essais pour analyser le comportement du contrôleur (consigne, profondeur mesurée, commande servos).
 
+### 6 novembre — Essais du robot dans le grand bassin
+
+**Contrôle du robot avec la télécommande.** Nous perdions le signal de temps en temps mais globalement nous arrivions à faire plonger le robot et à le contrôler sous l'eau.
+
+**Prise de vidéos du robot sous l'eau avec le blue ROV par Titouan Belier.**
+
+
+
+
