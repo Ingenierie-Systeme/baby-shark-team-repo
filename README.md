@@ -49,22 +49,9 @@ GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
 
 <img src="docs/img/0511_unity_control.jpg" alt="Simulation Unity du contrôle de profondeur" width="600">
 
-*TODO : vidéo / GIF du projet fini.*
-
-### 3D dynamics model
-*TODO : schéma des forces et couples, équations.*
-
-
-## Mechanical & Electronical Conception
-
-### Overview
-*TODO : vidéo / GIF / images du robot, présentation des capteurs.*
-
 ### Mechanical architecture
 
 <img src="docs/img/0211_cremaillere_cao.jpg" alt="CAO du système pignon-crémaillère" width="420">
-
-*TODO : schéma de l'architecture mécanique + texte.*
 
 ### Electronical architecture
 
@@ -79,9 +66,6 @@ GitHub : tbelier · guilhemmerlet19-ai · anatolelb · yoann-mtrz
 
 
 ## Simulation To Reality
-
-### What is it ?
-*TODO : présentation du concept et schéma commun simulation / réalité.*
 
 Logiciel embarqué : Ubuntu 24.04, ROS 2 Jazzy.
 
